@@ -1,6 +1,6 @@
 "use strict"
 const log = txt => console.log(txt);
-
+//=========================================================================================================
 
 
 const regBtn = {
@@ -12,29 +12,24 @@ const regBtn = {
   sendBtn: document.querySelectorAll('.register-button')
   
 }
-const mainForm = document.querySelector('.register')
-// log(mainForm)
+const mainForm = document.querySelector('.register');
 
-let dataFromForm = new FormData(mainForm);
+const errorMessage = {
+  mainError: document.querySelector('.error'),
+  inputErrors: document.querySelector('.localError')
+}
 
-// var details = {
-//     'userName': 'test@gmail.com',
-//     'password': 'Password!',
-//     'grant_type': 'password'
-// };
+const inputLabel = {
+  name: document.querySelector('.name'),
+  errorName:document.querySelector('.localErrorName'),
+  secondname: document.querySelector('.secondname'),
+  errorSecondname: document.querySelector('.localErrorSecondname')
+}
 
-const frForm = {
-  "agres": "on", 
-    "email": "123432456@sdf.com", 
-    "gender": "male", 
-    "name": "sadfsadfsadf", 
-    "pass": "123", 
-    "secondname": "asfasdfsdf"
-    }
-
-let formBody = [];
+//getting valid data format (text)
 function getEncode(data){
-
+  log(data)
+  let formBody = [];
 for (let property in data) {
   const encodedKey = encodeURIComponent(property);
   // log(encodedKey)
@@ -43,60 +38,43 @@ for (let property in data) {
   formBody.push(encodedKey + "=" + encodedValue);
 }
 formBody = formBody.join("&");
-// return formBody
+  log(formBody)
+return formBody;
 }
 
-// log(getEncode({"agres":"on","email":"123432456@sdf.com","gender":"male","name":"sfsfsddfsdf","pass":"sfsfsdd23fsdf","secondname":"sfsfsddfsdf"}))
 
-
-// log(formBody)
-
-
-// const params = {
-//   method: 'post',
-//   body: {
-//   "agres": "on", 
-//     "email": "123432456@sdf.com", 
-//     "gender": "male", 
-//     "name": "sadfsadfsadf", 
-//     "pass": "123", 
-//     "secondname": "asfasdfsdf"
-//     },
-//   headers: {
-//     'Content-Type':'application/json'
-//   }
-// }
-
-
-
-// console.log(regBtn.signUpForm);
-// console.log(regBtn.signUpForm.classList.contains('show'));
-// regBtn.sendBtn.forEach(btn => btn.addEventListener('click', handleSubmit));
 regBtn.signBtn.forEach(btn => btn.addEventListener('click', handleToggle));
-// regBtn.sendBtn.forEach(btn => btn.addEventListener('submit', handleSubmit));
-mainForm.addEventListener('submit', handleSubmit)
-// regBtn.signUpBtn.addEventListener('click', handleShowSignUp);
-// regBtn.signInBtn.addEventListener('click', handleShowSignIn);
+
+//submit form
+mainForm.addEventListener('submit', handleSubmit);
 
 
-// function handleShowSignUp(){
-//   if(regBtn.signUpForm.contains('show')){
-//     regBtn.signUpForm.remove('show');
-//   }
-// }
+//local valid
+inputLabel.name.addEventListener('change', handleCheck);
+inputLabel.secondname.addEventListener('change', handleCheck);
 
+//checking our fields before submitting form
+function handleCheck(event){
+  inputLabel.errorName.innerText = '';
+  const evt = event.target
+  console.log(evt.value);
+  if(evt.value.length < 3 || evt.value.length > 60){
+    if(evt.name === 'name'){
+      inputLabel.errorName.innerText = `Field ${evt.name} should contain from 3 to 60 letters`
+    }
+    if(evt.name === 'secondname'){
+      inputLabel.errorSecondname.innerText = `Field ${evt.name} should contain from 3 to 60 letters`
+    }
+  }
+}
 
-// function handleShowSignIn(){
-//   if(regBtn.signInForm.contains('show')) return
-// }
-
+//just parse our data from form and getting key 'form'
 function JSONtoObj(json){
   return JSON.parse(json).form
 }
 
 
 function handleSubmit(evt){
- 
   event.preventDefault();
 
     var request = new XMLHttpRequest();
@@ -105,21 +83,25 @@ function handleSubmit(evt){
 
     var formData = new FormData(mainForm);
 
-    // formData.append('appended1', 'appended value');
 
     request.send(formData);
-
-    //console.log(JSON.parse(request.response).form);
-    // console.log(request.response);
-
+   
     getValid(JSONtoObj(request.response))
-    .then(response => log(response.json));
-    // .then(data => log(data.json()));
+    .then(response => {
+      if(response.ok) return response.json();
+      throw new Error('Error in fetching');
+    })
+    .then(data => {
+      if(data.status === 'OK'){
+        location = 'https://romsribn.github.io/company/';
+      }
+      errorMessage.mainError.innerText = data.message;
+    })
+    
 }
 
-
+//demo functions (if log in will be excist)
 function handleToggle(event){
-  // event.preventDefault()
   let evt = event.target;
   console.log(evt.id);
 
@@ -136,14 +118,13 @@ function handleToggle(event){
 }
 
 
-
+//getting response from server
 function getValid(data){
-// log(data)
-getEncode(JSON.stringify(data))
-log(formBody)
+// log(formBody)
+// log(getEncode(data))
   return fetch('http://codeit.pro/codeitCandidates/serverFrontendTest/user/registration', {
-    method: 'POST',
-  body: formBody,
+  method: 'POST',
+  body: getEncode(data),
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
   },
