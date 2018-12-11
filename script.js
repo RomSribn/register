@@ -122,7 +122,7 @@ function handleToggle(event){
 function getValid(data){
 // log(formBody)
 // log(getEncode(data))
-  return fetch('http://codeit.pro/codeitCandidates/serverFrontendTest/user/registration', {
+  return fetch('https://codeit.pro/codeitCandidates/serverFrontendTest/user/registration', {
   method: 'POST',
   body: getEncode(data),
   headers: {
