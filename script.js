@@ -101,7 +101,7 @@ function handleSubmit(evt){
     
 }
 
-//demo functions (if log in will be excist)
+//demo functions (if log in will be exist)
 function handleToggle(event){
   let evt = event.target;
   console.log(evt.id);
