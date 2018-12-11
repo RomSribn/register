@@ -56,6 +56,7 @@ inputLabel.secondname.addEventListener('change', handleCheck);
 //checking our fields before submitting form
 function handleCheck(event){
   inputLabel.errorName.innerText = '';
+  inputLabel.errorSecondname.innerText = '';
   const evt = event.target
   console.log(evt.value);
   if(evt.value.length < 3 || evt.value.length > 60){
