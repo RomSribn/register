@@ -36,7 +36,8 @@
         <div class="input-group-prepend">
           <div class="input-group-text"><i class="fa fa-user"></i></div>
         </div>
-        <input type="text" class="form-control" name="name" id="inlineFormInputGroup" value='sfsfsddfsdf' placeholder="Name" required>
+        <input type="text" class="form-control name" name="name" id="inlineFormInputGroup" placeholder="Name" required>
+        <p class='localErrorName text-danger mt-3'></p>
       </div>
     </div>
 
@@ -46,7 +47,8 @@
         <div class="input-group-prepend">
           <div class="input-group-text"><i class="fa fa-user"></i></div>
         </div>
-        <input type="text" class="form-control" name="secondname" value='sfsfsddfsdf' id="inlineFormInputGroup" placeholder="Secondname" required>
+        <input type="text" class="form-control secondname" name="secondname" id="inlineFormInputGroup" placeholder="Secondname" required>
+        <p class='localErrorSecondname text-danger mt-3'></p>
       </div>
     </div>
 
@@ -78,7 +80,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text"><i class="fa fa-star-of-life"></i></div>
         </div>
-        <input type="password" class="form-control" value='sfsfsdd23fsdf' name="pass" id="inlineFormInputGroup" placeholder="Password">
+        <input type="password" class="form-control" name="pass" id="inlineFormInputGroup" placeholder="Password">
       </div>
     </div>
     
@@ -91,11 +93,10 @@
         <input type="checkbox" class="form-check-input" id="scales" name="agres" required> 
         <label for="scales">Conditions of Agreement</label>
       </div>
-        
     </div>
 
-    
       <input type="submit" value="Send" class="register-button">
+        <div class="error mt-3 text-danger"></div>
   </div>
       </div>
     </div>
